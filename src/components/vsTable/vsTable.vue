@@ -6,7 +6,9 @@
     <!-- header -->
     <header class="header-table vs-table--header">
       <slot name="header"></slot>
-      <div v-if="search" class="con-input-search vs-table--search">
+      <div 
+        v-if="search" 
+        class="con-input-search vs-table--search">
         <input
           v-model="searchx"
           class="input-search vs-table--search-input"
@@ -16,12 +18,22 @@
       </div>
     </header>
     <div class="con-tablex vs-table--content">
-      <div :style="styleConTbody" class="vs-con-tbody vs-table--tbody ">
-        <table ref="table" class="vs-table vs-table--tbody-table">
-          <thead ref="thead" class="vs-table--thead">
+      <div 
+        :style="styleConTbody" 
+        class="vs-con-tbody vs-table--tbody">
+        <table 
+          ref="table" 
+          class="vs-table vs-table--tbody-table">
+          <thead 
+            ref="thead" 
+            class="vs-table--thead">
             <tr>
-              <th v-if="multiple || hasExpadableData" class="td-check">
-                <span v-if="multiple" class="con-td-check">
+              <th 
+                v-if="multiple || hasExpadableData"
+                class="td-check">
+                <span 
+                  v-if="multiple" 
+                  class="con-td-check">
                   <vs-checkbox
                     :key="isCheckedLine ? 'remove' : 'check'"
                     :icon="isCheckedLine ? 'remove' : 'check'"
@@ -37,11 +49,15 @@
           <slot :data="datax"></slot>
         </table>
       </div>
-      <div v-if="isNoData" class="not-data-table vs-table--not-data">
+      <div 
+        v-if="isNoData" 
+        class="not-data-table vs-table--not-data">
         {{ noDataText }}
       </div>
 
-      <div v-if="pagination" class="con-pagination-table vs-table--pagination">
+      <div 
+        v-if="pagination" 
+        class="con-pagination-table vs-table--pagination">
         <vs-pagination
           v-model="currentx"
           :total="searchx && !sst ? getTotalPagesSearch : getTotalPages"
@@ -67,80 +83,80 @@ export default {
     value: {},
     color: {
       default: "primary",
-      type: String
+      type: String,
     },
     noDataText: {
       default: "No data Available",
-      type: String
+      type: String,
     },
     stripe: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     hoverFlat: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     maxHeight: {
       default: "auto",
-      type: String
+      type: String,
     },
     multiple: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     data: {
-      default: null
+      default: null,
     },
     notSpacer: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     search: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     maxItems: {
       default: 5,
-      type: [Number, String]
+      type: [Number, String],
     },
     pagination: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     description: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     descriptionItems: {
       default: () => [],
-      type: Array
+      type: Array,
     },
     descriptionTitle: {
-      type: String
+      type: String,
     },
     descriptionConnector: {
-      type: String
+      type: String,
     },
     descriptionBody: {
-      type: String
+      type: String,
     },
     currentPage: {
       default: 1,
-      type: Number | String
+      type: Number | String,
     },
     sst: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     total: {
       type: Number,
-      default: 0
+      default: 0,
     },
     onlyClickCheckbox: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     headerWidth: "100%",
@@ -151,7 +167,7 @@ export default {
     maxItemsx: 5,
     hasExpadableData: false,
     currentSortKey: null,
-    currentSortType: null
+    currentSortType: null,
   }),
   computed: {
     getTotalPages() {
@@ -166,10 +182,8 @@ export default {
       let queriedResults = this.data;
       if (this.searchx && this.search) {
         let dataBase = this.data;
-        queriedResults = dataBase.filter(tr => {
-          let values = this.getValues(tr)
-            .toString()
-            .toLowerCase();
+        queriedResults = dataBase.filter((tr) => {
+          let values = this.getValues(tr).toString().toLowerCase();
           return values.indexOf(this.searchx.toLowerCase()) != -1;
         });
       }
@@ -195,18 +209,18 @@ export default {
     styleConTbody() {
       return {
         maxHeight: this.maxHeight,
-        overflow: this.maxHeight != "auto" ? "auto" : null
+        overflow: this.maxHeight != "auto" ? "auto" : null,
       };
     },
     getThs() {
-      let ths = this.$slots.thead.filter(item => item.tag);
+      let ths = this.$slots.thead.filter((item) => item.tag);
       return ths.length;
     },
     tableHeaderStyle() {
       return {
-        width: this.headerWidth
+        width: this.headerWidth,
       };
-    }
+    },
   },
   watch: {
     currentPage() {
@@ -241,7 +255,7 @@ export default {
         this.loadData();
         this.currentx = 1;
       }
-    }
+    },
   },
   mounted() {
     window.addEventListener("resize", this.listenerChangeWidth);
@@ -298,7 +312,7 @@ export default {
       const search = this.normalize(this.searchx);
 
       return this.sortItems(this.data)
-        .filter(tr => {
+        .filter((tr) => {
           return (
             this.normalize(this.getValues(tr).toString()).indexOf(search) != -1
           );
@@ -326,16 +340,20 @@ export default {
       function flattenDeep(val) {
         // return Object.values(val || []).reduce((acc, val) => (typeof val === 'object') ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
 
-        return Object.keys(val || []).map(function (key) {return val[key]}).reduce(
-          (acc, val) =>
-            typeof val === "object"
-              ? acc.concat(flattenDeep(val))
-              : acc.concat(val),
-          []
-        );
+        return Object.keys(val || [])
+          .map(function (key) {
+            return val[key];
+          })
+          .reduce(
+            (acc, val) =>
+              typeof val === "object"
+                ? acc.concat(flattenDeep(val))
+                : acc.concat(val),
+            []
+          );
       }
 
-      return flattenDeep(obj).filter(function(item) {
+      return flattenDeep(obj).filter(function (item) {
         return typeof item === "string" || typeof item === "number";
       });
     },
@@ -415,7 +433,7 @@ export default {
     },
     changeMaxItems(index) {
       this.maxItemsx = this.descriptionItems[index];
-    }
-  }
+    },
+  },
 };
 </script>
