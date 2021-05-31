@@ -15,13 +15,21 @@ const vsFunctions = {
 }
 
 export default vm => {
-  Object.values(vsFunctions).forEach((vsFunctions) => {
-    if(vsFunctions.hasOwnProperty('subName')){
+ 
+  Object.keys(vsFunctions).forEach((key) => {
+    if(vsFunctions[key].hasOwnProperty('subName')){
       vm.$vs[vsFunctions.name][vsFunctions.subName] = vsFunctions.vsfunction
     } else {
       vm.$vs[vsFunctions.name] = vsFunctions.vsfunction
     }
   })
+  // Object.values(vsFunctions).forEach((vsFunctions) => {
+  //   if(vsFunctions.hasOwnProperty('subName')){
+  //     vm.$vs[vsFunctions.name][vsFunctions.subName] = vsFunctions.vsfunction
+  //   } else {
+  //     vm.$vs[vsFunctions.name] = vsFunctions.vsfunction
+  //   }
+  // })
 
   vm.$vs.loading.close = vsLoading.close
 }
